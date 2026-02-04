@@ -2,6 +2,8 @@ require_relative "boot"
 
 require "rails/all"
 
+require_relative "../lib/log_events"
+
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
@@ -31,5 +33,7 @@ module Example
 
     # Use Async::Job as the Active Job queue adapter.
     config.active_job.queue_adapter = :async_job
+
+    config.middleware.use(Rack::Events, [LogEvents.new])
   end
 end
